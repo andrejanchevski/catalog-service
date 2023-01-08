@@ -1,4 +1,4 @@
-package com.polarobookshop.catalogservice.domain.web;
+package com.polarobookshop.catalogservice.web;
 
 import com.polarobookshop.catalogservice.domain.BookNotFoundException;
 import com.polarobookshop.catalogservice.domain.BookService;
