@@ -31,6 +31,6 @@
 8. kubectl apply -f k8s/deployment.yml - Adding Deployment to the Cluster
 9. kubectl apply -f k8s/service.yml - Adding Service to the Cluster
 10. kubectl logs deployment/catalog-service - Logs for a specific deployment
-11. kubectl port-forward service/catalog-service 9091:80 - Portforward to reach the service
+11. kubectl port-forward service/catalog-service 9001:80 - Portforward to reach the service
 
 
