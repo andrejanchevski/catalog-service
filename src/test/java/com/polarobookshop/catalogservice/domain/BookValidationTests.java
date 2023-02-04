@@ -103,7 +103,4 @@ public class BookValidationTests {
         assertThat(violations).isEmpty();
     }
 
-
-
-
 }
