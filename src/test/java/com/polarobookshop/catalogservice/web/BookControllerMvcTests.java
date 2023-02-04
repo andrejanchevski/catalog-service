@@ -6,7 +6,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 
 import static org.mockito.BDDMockito.given;
 
@@ -22,6 +28,9 @@ public class BookControllerMvcTests {
     @MockBean
     private BookService bookService;
 
+    @MockBean
+    JwtDecoder jwtDecoder;
+
     @Test
     void whenGetBookNotExistingThenShouldReturn404() throws Exception {
         String isbn = "73737313940";
@@ -31,5 +40,15 @@ public class BookControllerMvcTests {
                 .perform(get("/books/" + isbn))
                 .andExpect(status().isNotFound());
 
+    }
+
+    @Test
+    void whenDeleteBookWithEmployeeRoleThenShouldReturn204() throws Exception{
+        var isbn = "7373731394";
+        mockMvc
+                .perform(MockMvcRequestBuilders.delete("/books/" + isbn)
+                        .with(jwt().authorities(new SimpleGrantedAuthority("ROLE_employee")))
+                )
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
     }
 }

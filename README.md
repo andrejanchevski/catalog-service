@@ -12,8 +12,8 @@
 # Running in Kubernetes
 1. For local running have minikube running locally
 2. minikube image load catalog-service:0.0.1-SNAPSHOT
-   2.1. Loading the image into minikube from the local machine
-   2.2. It is important to execute ./gradlew bootBuildImage first to get the image locally using Cloud Native Buildpacks
+   * Loading the image into minikube from the local machine
+   * It is important to execute ./gradlew bootBuildImage first to get the image locally using Cloud Native Buildpacks
 3. kubectl create deployment catalog-service --image=catalog-service:0.0.1-SNAPSHOT
 4. kubectl expose deployment catalog-service --name=catalog-service --port=8080
 5. kubectl port-forward catalog-service 8080:8080
@@ -32,5 +32,25 @@
 9. kubectl apply -f k8s/service.yml - Adding Service to the Cluster
 10. kubectl logs deployment/catalog-service - Logs for a specific deployment
 11. kubectl port-forward service/catalog-service 9001:80 - Portforward to reach the service
+12. minikube image ls - Fetch Loaded Images Into minikube
+
+
+# Starting Config Service, Catalog Service and Order Service without API Gateway
+1. minikube start --cpus 2 --memory 4g --driver docker --profile polar
+   * Starting A Local Cluster Using Minikube
+2. minikube image ls
+   * Checking the loaded images
+   * Specify profile --profile polar
+3. Navigate to catalog-service and execute ./gradlew bootBuildImage
+4. Navigate to order-service and execute ./gradlew bootBuildImage
+5. Navigate to config-service and execute ./gradlew bootBuildImage
+6. minikube image load catalog-service --profile polar
+7. minikube image load order-service --profile polar
+8. minikube image load config-service --profile polar
+   * Check Maybe the Images have been loaded already on minikube
+9. Navigate to /polar-deployment/kubernetes/platform/development and enter kubectl apply -f services
+10. Navigate to /polar-deployment/kubernetes/applications/development and enter tilt up
+
+
 
 
